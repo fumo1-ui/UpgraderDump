@@ -1,0 +1,280 @@
+﻿<!doctype html>
+<html lang="ru" class="scrollbar-thin" dir="ltr">
+  <head>
+    <meta charset="utf-8"/>
+    <base href="/"/>
+    <title>Апгрейд предметов КС2: лучший Upgrader CS</title>
+    <meta name="description" content="Улучшай предметы CS2 на Upgrader.pro — быстрый апгрейд инвентаря, прозрачные условия, моментальный вывод. Начни прямо сейчас."/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, interactive-widget=resizes-content"/>
+
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+
+    <script src="mock-login.js"></script>
+
+    <link rel="icon" type="image/x-icon" sizes="32x32" href="favicon.ico"/>
+
+    <link rel="canonical" href="https://upgrader.vip/ru/"/>
+
+    <link rel="alternate" href="https://upgrader.vip/ru" hreflang="x-default"/>
+    <link rel="alternate" href="https://upgrader.vip/ru" hreflang="ru-RU"/>
+    <link rel="alternate" href="https://upgrader.pro/cis" hreflang="ru"/>
+
+    <link rel="alternate" href="https://upgrader.pro/en" hreflang="en"/>
+    <link rel="alternate" href="https://upgrader.pro/ka" hreflang="ka"/>
+    <link rel="alternate" href="https://upgrader.pro/kk" hreflang="kk"/>
+    <link rel="alternate" href="https://upgrader.pro/uz" hreflang="uz"/>
+    <link rel="alternate" href="https://upgrader.pro/ro" hreflang="ro"/>
+    <link rel="alternate" href="https://upgrader.pro/hu" hreflang="hu"/>
+    <link rel="alternate" href="https://upgrader.pro/tr" hreflang="tr"/>
+    <link rel="alternate" href="https://upgrader.pro/pl" hreflang="pl"/>
+    <link rel="alternate" href="https://upgrader.pro/pt" hreflang="pt"/>
+    <link rel="alternate" href="https://upgrader.pro/es" hreflang="es"/>
+    <link rel="alternate" href="https://upgrader.pro/mn" hreflang="mn"/>
+
+    <script>
+      (function () {
+        var host = location.hostname.toLowerCase();
+        var prodDomains = [
+          "upgrader.pro",
+          "upgrader.vip",
+          "upgrader.uz",
+          "upgrader.base",
+          "upgrader.art",
+          "upgrader.best",
+        ];
+        var localHosts = ["localhost", "127.0.0.1", "0.0.0.0"];
+        var picked = null;
+        for (var i = 0; i < prodDomains.length; i++) {
+          if (host === prodDomains[i] || host.endsWith("." + prodDomains[i])) {
+            picked = prodDomains[i];
+            break;
+          }
+        }
+        var href;
+        if (picked) {
+          href = "https://s3." + picked + "/cdn/fa/images/game/upgrade-circle-bg.svg";
+        } else if (localHosts.indexOf(host) !== -1) {
+          href = "/assets/images/game/upgrade-circle-bg.svg";
+        } else {
+          href = "https://s3-dev.upgrader.pro/cdn/fa/images/game/upgrade-circle-bg.svg";
+        }
+        var link = document.createElement("link");
+        link.rel = "preload";
+        link.as = "image";
+        link.fetchPriority = "high";
+        link.type = "image/svg+xml";
+        link.href = href;
+        document.head.appendChild(link);
+      })();
+    </script>
+
+    <script>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-K696X2MH");
+    </script>
+
+    <script type="text/javascript">
+      (function (m, e, t, r, i, k, a) {
+        m[i] =
+          m[i] ||
+          function () {
+            (m[i].a = m[i].a || []).push(arguments);
+          };
+        m[i].l = 1 * new Date();
+        for (var j = 0; j < document.scripts.length; j++) {
+          if (document.scripts[j].src === r) {
+            return;
+          }
+        }
+        ((k = e.createElement(t)),
+          (a = e.getElementsByTagName(t)[0]),
+          (k.async = 1),
+          (k.src = r),
+          a.parentNode.insertBefore(k, a));
+      })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js?id=105203095", "ym");
+
+      ym(105203095, "init", {
+        ssr: true,
+        webvisor: true,
+        clickmap: true,
+        ecommerce: "dataLayer",
+        accurateTrackBounce: true,
+        trackLinks: true,
+      });
+    </script>
+  <link rel="stylesheet" href="styles-HSRX4YRJ.css"></head>
+  <body>
+    <noscript>
+      <iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-K696X2MH"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+      ></iframe>
+    </noscript>
+    <noscript>
+      <div><img src="https://mc.yandex.ru/watch/105203095" style="position: absolute; left: -9999px" alt="" /></div>
+    </noscript>
+
+    <up-app-root></up-app-root>
+
+    <div id="up-mock-reg">
+      <div id="up-mock-reg-title">Регистрация (демо, без Steam)</div>
+      <input id="up-mock-reg-nick" type="text" maxlength="20" placeholder="Твой никнейм"/>
+      <div id="up-mock-reg-btns">
+        <button id="up-mock-reg-enter" type="button">Войти / Создать</button>
+        <button id="up-mock-reg-random" type="button">Случайный ник</button>
+        <button id="up-mock-reg-logout" type="button">Выйти</button>
+      </div>
+      <div id="up-mock-topup">
+        <input id="up-mock-topup-amt" type="number" min="1" max="100000" step="1" inputmode="numeric" placeholder="Сумма (1 – 100000)"/>
+        <button id="up-mock-topup-btn" type="button">Пополнить</button>
+      </div>
+      <div id="up-mock-reg-now"></div>
+    </div>
+    <style>
+      #up-mock-reg {
+        position: fixed;
+        left: 0.75rem;
+        bottom: 0.75rem;
+        z-index: 2147483647;
+        display: flex;
+        flex-direction: column;
+        gap: 0.375rem;
+        width: 15rem;
+        padding: 0.625rem;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 0.75rem;
+        background: rgba(23, 24, 28, 0.92);
+        color: #fff;
+        font: 500 0.8125rem/1.2 "Exo 2", system-ui, sans-serif;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+        backdrop-filter: blur(6px);
+      }
+      #up-mock-reg-title { font-weight: 700; font-size: 0.8125rem; color: #fedb1a; }
+      #up-mock-reg input {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 0.4rem 0.55rem;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 0.5rem;
+        background: #0e0f11;
+        color: #fff;
+        font: inherit;
+        outline: none;
+      }
+      #up-mock-reg input:focus { border-color: #fedb1a; }
+      #up-mock-reg-btns { display: flex; gap: 0.375rem; }
+      #up-mock-reg button {
+        flex: 1;
+        padding: 0.375rem 0.25rem;
+        border: none;
+        border-radius: 0.5rem;
+        background: #2b2d33;
+        color: #fff;
+        font: 600 0.6875rem/1.1 inherit;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+      #up-mock-reg button:hover { background: #3a3d45; }
+      #up-mock-reg-enter { background: #fedb1a !important; color: #17181c !important; }
+      #up-mock-reg-enter:hover { background: #ffb51b !important; }
+      #up-mock-topup {
+        display: flex;
+        gap: 0.375rem;
+        align-items: center;
+      }
+      #up-mock-topup input {
+        flex: 1 1 auto;
+        width: auto;
+        font-size: 0.75rem;
+      }
+      #up-mock-topup-btn {
+        flex: 0 0 auto;
+        background: #2e7d32 !important;
+        color: #fff !important;
+      }
+      #up-mock-topup-btn:hover { background: #3a9b40 !important; }
+      #up-mock-reg-now { font-size: 0.6875rem; color: rgba(255, 255, 255, 0.6); min-height: 1em; word-break: break-all; }
+    </style>
+    <script>
+      (function () {
+        var KEY = "up_mock_nickname";
+        var inp = document.getElementById("up-mock-reg-nick");
+        var now = document.getElementById("up-mock-reg-now");
+        function updateNow() {
+          var nick = null;
+          try { nick = localStorage.getItem(KEY); } catch (e) {}
+          var authed = false;
+          try { authed = !!localStorage.getItem("auth_token"); } catch (e) {}
+          if (authed) {
+            now.textContent = nick ? "Аккаунт: " + nick : "Вы вошли (LocalTester)";
+          } else {
+            now.textContent = "Пока не вошёл";
+          }
+        }
+        function login(nick) {
+          if (!nick) nick = "Player" + Math.floor(Math.random() * 9000 + 1000);
+          var token = "mock_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+          try { localStorage.setItem(KEY, nick); } catch (e) {}
+          // Новый аккаунт начинается с пустого баланса и пустого инвентаря.
+          try { localStorage.setItem("up_mock_balance", "0"); } catch (e) {}
+          try { localStorage.setItem("up_mock_inventory", "[]"); } catch (e) {}
+          var sep = window.location.search ? "&" : "?";
+          window.location.href =
+            window.location.pathname +
+            sep +
+            "token=" + encodeURIComponent(token) +
+            "&refreshToken=" + encodeURIComponent("r" + token);
+        }
+        function logout() {
+          try {
+            localStorage.removeItem("auth_token");
+            localStorage.removeItem("refresh_token");
+            localStorage.removeItem(KEY);
+            localStorage.setItem("up_mock_logged_out", "1");
+          } catch (e) {}
+          window.location.reload();
+        }
+        document.getElementById("up-mock-reg-enter").onclick = function () {
+          login(inp.value.trim());
+        };
+        document.getElementById("up-mock-reg-random").onclick = function () {
+          login("");
+        };
+        document.getElementById("up-mock-reg-logout").onclick = logout;
+        // Пополнение баланса: любая сумма от 1 до 100000.
+        var amtInp = document.getElementById("up-mock-topup-amt");
+        function topUp() {
+          var v = parseFloat(amtInp.value);
+          if (!isFinite(v) || v <= 0) { amtInp.focus(); return; }
+          v = Math.min(100000, v);
+          var cur = parseFloat(localStorage.getItem("up_mock_balance") || "0") || 0;
+          localStorage.setItem("up_mock_balance", (Math.round((cur + v) * 100) / 100).toString());
+          window.location.reload();
+        }
+        document.getElementById("up-mock-topup-btn").onclick = topUp;
+        amtInp.addEventListener("keydown", function (e) {
+          if (e.key === "Enter") topUp();
+        });
+        inp.addEventListener("keydown", function (e) {
+          if (e.key === "Enter") login(inp.value.trim());
+        });
+        updateNow();
+        setTimeout(updateNow, 800);
+        setTimeout(updateNow, 3000);
+      })();
+    </script>
+  <link rel="modulepreload" href="chunk-B3NVWODZ.js"><link rel="modulepreload" href="chunk-5TOVVRUR.js"><link rel="modulepreload" href="chunk-6V4F3BEO.js"><link rel="modulepreload" href="chunk-4IUYUFPT.js"><link rel="modulepreload" href="chunk-2DSATNJM.js"><link rel="modulepreload" href="chunk-FT66FDOD.js"><link rel="modulepreload" href="chunk-HNYECYB3.js"><link rel="modulepreload" href="chunk-NCMD6GOW.js"><link rel="modulepreload" href="chunk-YPFNIV52.js"><link rel="modulepreload" href="chunk-COKBOALV.js"><script src="polyfills-HZTA6SHH.js" type="module"></script><script src="main-DJNZ54EY.js" type="module"></script></body>
+</html>

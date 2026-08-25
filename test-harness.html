@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>mock-harness</title>
+<script>
+// Bootstrap: seed localStorage BEFORE mock-login.js loads.
+(function () {
+  function q(name, def) {
+    try {
+      var v = new URL(window.location.href).searchParams.get(name);
+      return v === null ? def : v;
+    } catch (e) { return def; }
+  }
+  var seedBalance = parseFloat(q('seed_balance', '123456.78')) || 0;
+  var seedDeposit = parseFloat(q('mock_deposit', '0')) || 0;
+  if (seedDeposit > 0) {
+    sessionStorage.setItem('mock_deposit_test', JSON.stringify({ seed: seedBalance, amount: seedDeposit }));
+  }
+  localStorage.setItem('up_mock_balance', seedBalance.toString());
+  localStorage.setItem('up_mock_inventory', '[]');
+  localStorage.removeItem('up_mock_logged_out');
+  localStorage.removeItem('up_mock_shop_cache');
+  localStorage.removeItem('auth_token');
+  localStorage.removeItem('refresh_token');
+  var shop = [
+    { id: 'shop1', appId: 730, marketName: 'Test Skin One', price: '100', image: '', extra: {} },
+    { id: 'shop2', appId: 730, marketName: 'Test Skin Two', price: '200', image: '', extra: {} },
+    { id: 'shop3', appId: 730, marketName: 'Test Skin Three', price: '300', image: '', extra: {} },
+    { id: 'shop4', appId: 730, marketName: 'Test Skin Four', price: '400', image: '', extra: {} }
+  ];
+  localStorage.setItem('up_mock_shop_cache', JSON.stringify(shop));
+})();
+</script>
+<script src="/mock-login.js"></script>
+</head>
+<body>
+<pre id="results">RUNNING</pre>
+<script>
+(function () {
+  var out = [];
+  var done = false;
+
+  function record(name, ok, extra) {
+    out.push(Object.assign({ name: name, ok: !!ok }, extra || {}));
+  }
+
+  function safeParse(t) {
+    try { return JSON.parse(t); } catch (e) { return null; }
+  }
+
+  function xhr(method, url, body) {
+    return new Promise(function (resolve, reject) {
+      var x = new XMLHttpRequest();
+      x.open(method, url, true);
+      x.setRequestHeader('Content-Type', 'application/json');
+      x.onload = function () {
+        resolve({ status: x.status, body: safeParse(x.responseText) });
+      };
+      x.onerror = function () { reject(new Error('xhr error ' + url)); };
+      x.send(body ? JSON.stringify(body) : null);
+    });
+  }
+
+  function bal() { return parseFloat(localStorage.getItem('up_mock_balance') || '0'); }
+  function inv() {
+    try { var a = JSON.parse(localStorage.getItem('up_mock_inventory') || '[]'); return Array.isArray(a) ? a : []; }
+    catch (e) { return []; }
+  }
+
+  function finish() {
+    if (done) return;
+    done = true;
+    var pre = document.getElementById('results');
+    pre.textContent = JSON.stringify(out, null, 2);
+    document.title = 'DONE';
+  }
+
+  // deposit-only mode: handleMockDeposit already added mock_deposit to seeded balance
+  var depInfo = null;
+  try { depInfo = JSON.parse(sessionStorage.getItem('mock_deposit_test') || 'null'); } catch (e) {}
+  if (depInfo) {
+    var expect = depInfo.seed + depInfo.amount;
+    record('deposit_credit', Math.abs(bal() - expect) < 0.01, { balance: bal(), expected: expect });
+    finish();
+    return;
+  }
+
+  function depositRedirectTest() {
+    return xhr('POST', '/api/payments/methods/card/create-invoice',
+      { amount: 500, inMethodCurrency: 'USD', items: [], successUrl: '/en' })
+      .then(function (r) {
+        var redir = r.body && r.body.redirectUrl;
+        record('create_invoice_redirect', r.status === 200 && typeof redir === 'string' && redir.indexOf('mock_deposit=500') >= 0,
+          { status: r.status, redirectUrl: redir });
+      });
+  }
+
+  var preBetBalance = 0;
+  function run() {
+    return xhr('GET', '/api/users/me').then(function (r) {
+      // Баланс реальный, не раздутый (демо-баланс убран).
+      record('users_me', r.status === 200 && r.body && r.body.nickname === 'LocalTester' && Math.abs(r.body.balance - bal()) < 0.01,
+        { status: r.status, nickname: r.body && r.body.nickname, balance: r.body && r.body.balance });
+      return xhr('GET', '/api/items/inventory');
+    }).then(function (r) {
+      record('inventory_empty', r.status === 200 && Array.isArray(r.body.items) && r.body.items.length === 0,
+        { status: r.status, count: r.body && r.body.items && r.body.items.length });
+      var startBal = bal();
+      return xhr('POST', '/api/items/shop/buy', { itemIds: ['shop1', 'shop2'] });
+    }).then(function (r) {
+      var items = inv();
+      var newBal = bal();
+      record('buy_ok', r.status === 200 && items.length === 2 && Math.abs(newBal - (startBal - 300)) < 0.01,
+        { status: r.status, items: items.length, balance: newBal, startBal: startBal });
+      if (items.length === 0) throw new Error('buy produced no inventory');
+      var betId = items[0].id;
+      preBetBalance = bal();
+      return xhr('POST', '/api/game/upgrader/bet',
+        { betInventoryItemIds: [betId], targetItemId: 'shop3', targetItemPrice: '300', addedBalance: 50 });
+    }).then(function (r) {
+      var bet = r.body && r.body.bet;
+      var items = inv();
+      record('upgrade_ok',
+        r.status === 200 && bet && (bet.status === 'won' || bet.status === 'lost') &&
+        Array.isArray(bet.betItems) && bet.betItems.length === 1 &&
+        bet.targetItem && String(bet.targetItem.id) === 'shop3' &&
+        Math.abs(bal() - (preBetBalance - 50)) < 0.01 &&
+        (items.length === 1 || items.length === 2) &&
+        r.body.balance === bal().toFixed(2),
+        { status: r.status, betStatus: bet && bet.status, betItems: bet && bet.betItems && bet.betItems.length, inventory: items.length, balance: bal() });
+      var items2 = inv();
+      var toWithdraw = items2.length ? items2[0].id : null;
+      var chain = Promise.resolve();
+      if (toWithdraw) {
+        chain = chain.then(function () {
+          return xhr('POST', '/api/withdrawals', { inventoryItemId: toWithdraw });
+        }).then(function (rr) {
+          record('withdraw_ok', rr.status === 200 && inv().length === items2.length - 1,
+            { status: rr.status, before: items2.length, after: inv().length });
+        });
+      }
+      return chain.then(function () {
+        var items3 = inv();
+        var toSell = items3.length ? items3[0].id : null;
+        if (toSell) {
+          return xhr('POST', '/api/items/inventory/sell', { inventoryItemIds: [toSell] });
+        }
+        return { status: 200 };
+      }).then(function (rr) {
+        record('sell_ok', rr.status === 200, { status: rr.status, inventory: inv().length });
+        return depositRedirectTest();
+      }).then(function () {
+        return xhr('POST', '/api/users/auth/logout', {});
+      }).then(function (rr) {
+        record('logout_flag', rr.status === 200 && localStorage.getItem('up_mock_logged_out') === '1',
+          { status: rr.status, flag: localStorage.getItem('up_mock_logged_out') });
+      });
+    }).catch(function (err) {
+      record('exception', false, { message: String(err && err.message || err) });
+    });
+  }
+
+  run().then(finish, finish);
+  setTimeout(function () { if (!done) { record('timeout', false, {}); finish(); } }, 20000);
+})();
+</script>
+</body>
+</html>
