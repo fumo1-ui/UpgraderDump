@@ -1,7 +1,7 @@
 /*
  * mock-login.js
  *
- * Локальная подмена API для дампа upgrader.vip (Angular использует XHR).
+ * Локальная подмена API для дампа upgrader.best (Angular использует XHR).
  * - Мокаются auth/юзер-эндпоинты: вход без Steam, фейковый пользователь,
  *   инвентарь, уведомления.
  * - Покупка/продажа/апгрейд/вывод/депозит работают локально (демо-экономика):
@@ -1068,5 +1068,5 @@
     };
   }
 
-  console.log("[mock-login] upgrader.vip mock API installed (token=" + MOCK.token + ", balance=" + getBalance() + ")");
+  console.log("[mock-login] upgrader.best mock API installed (token=" + MOCK.token + ", balance=" + getBalance() + ")");
 })();

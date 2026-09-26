@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Локальный сервер для дампа upgrader.vip.
+Локальный сервер для дампа upgrader.best.
 - Отдаёт статические файлы из папки дампа.
-- /api/* проксирует на реальный бэкенд https://upgrader.vip/api/*,
+- /api/* проксирует на реальный бэкенд https://upgrader.best/api/*,
   чтобы магазин скинов и live-drops показывали настоящие данные.
 - Ответы реального API с 401/403 заменяются на 200 + пустое тело,
   чтобы у приложения не срабатывал logout при фейковом токене.
@@ -15,8 +15,8 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
-API_BASE = "https://upgrader.vip"
-ASSET_CDN = "https://s3.upgrader.vip/cdn/fa"
+API_BASE = "https://upgrader.best"
+ASSET_CDN = "https://s3.upgrader.best/cdn/fa"
 DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 
 FORWARD_HEADERS = {
@@ -72,7 +72,7 @@ class ProxyHandler(SimpleHTTPRequestHandler):
         translated = self.translate_path(self.path)
         if not os.path.isfile(translated):
             # SPA-fallback только для маршрутов (без расширения файла).
-            # Пропавшие ассеты — догружаем с реального CDN (s3.upgrader.vip/cdn/fa).
+            # Пропавшие ассеты — догружаем с реального CDN (s3.upgrader.best/cdn/fa).
             ext = os.path.splitext(self.path)[1]
             if self.path.startswith("/assets/") and ext:
                 if self._proxy_asset():
@@ -142,7 +142,7 @@ class ProxyHandler(SimpleHTTPRequestHandler):
             self._send_error(502, "proxy error: %s" % err)
 
     def _proxy_asset(self):
-        # Пропавший ассет в дампе: /assets/<sub> -> https://s3.upgrader.vip/cdn/fa/<sub>
+        # Пропавший ассет в дампе: /assets/<sub> -> https://s3.upgrader.best/cdn/fa/<sub>
         try:
             rel = self.path[len("/assets/"):]
         except Exception:
